@@ -5,7 +5,7 @@
 
 // [number of languages][number of texts]
 // *** means the text is the same as in English
-static const char* const myLanguage[5][82] PROGMEM = {
+static const char* const myLanguage[6][82] PROGMEM = {
   { "English", // English
     "Rotary direction changed", // 1
     "Please release button", // 2
@@ -426,6 +426,91 @@ static const char* const myLanguage[5][82] PROGMEM = {
     "Developpement", // 79
     "Design graphique", // 80
     "a propos" // 81
+  },
+
+  {
+    "Español", // Español
+    "Cambio de rotación", // 1
+    "Soltar el botón", // 2
+    "Alternar pantalla", // 3
+    "Calibrar el contador", // 4
+    "Soltar el botón y comenzar", // 5
+    "Codificador óptico ajustable", // 6
+    "Codificador en estándar", // 7
+    "Recepción SI-DAB", // 8
+    "Software", // 9
+    "Carga predeterminada", // 10
+    "Lista de canales", // 11
+    "Idioma", // 12
+    "Brillo", // 13
+    "Tema", // 14
+    "Diapositivas automáticas", // 15
+    "Unidad de señal", // 16
+    "Búfer de diapositivas", // 17
+    "", // 18
+    "Presionar para volver", // 19
+    "CONFIGURACIÓN", // 20
+    "Arriba", // 21
+    "Abajo", // 22
+    "Encendido", // 23
+    "Apagado", // 24
+    "Tiempo", // 25
+    "Mín.", // 26
+    "Información del servicio", // 27
+    "Frecuencia", // 28
+    "Nombre del conjunto", // 29
+    "Nombre del servicio", // 30
+    "Tipo de programa", // 31
+    "Nivel de protección", // 32
+    "Muestreo", // 33
+    "Tasa de bits", // 34
+    "Modo de audio", // 35
+    "Información de la señal", // 36
+    "Desconocido", // 37
+    "Noticias", // 38
+    "Actualidad", // 39
+    "Información", // 40
+    "Deporte", // 41
+    "Educación", // 42
+    "Drama", // 43
+    "Cultura", // 44
+    "Ciencia", // 45
+    "Variedades", // 46
+    "Música pop", // 47
+    "Rock", // 48
+    "Relajante", // 49
+    "Clásica ligera", // 50
+    "Clásica seria", // 51
+    "Otras músicas", // 52
+    "Clima", // 53
+    "Economía", // 54
+    "Infantil", // 55
+    "Asuntos sociales", // 56
+    "Religión", // 57
+    "Llamadas telefónicas", // 58
+    "Viajes", // 59
+    "Ocio", // 60
+    "Jazz", // 61
+    "Country", // 62
+    "Música nacional", // 63
+    "Música antigua", // 64
+    "Folk", // 65
+    "Documentales", // 66
+    "", // 67
+    "", // 68
+    "", // 69
+    "", // 70
+    "", // 71
+    "DAB plus", // 72
+    "Esperando lista", // 73
+    "Seleccione por favor", // 74
+    "Buscando....", // 75
+    "Sin señal", // 76
+    "Sin sintonizador", // 77
+    "MODO EN ESPERA", // 78
+    "Desarrollo", // 79
+    "Diseño gráfico", // 80
+    "Acerca de" // 81
   }
 };
 #endif
