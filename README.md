@@ -3,13 +3,16 @@
 
 # Note:
 The version in the repository is an ongoing development. It could and will contain bugs. To make sure you use the latest fully tested firmware, check the releases!
+RIGHT NOW only KiCad files and even these not finished.
 
 # SI4684 DAB receiver
-Advanced DAB Tuner software for Skyworks SI4684 tuner with ESP32 board and a color LCD\
+Advanced DAB Tuner software for Skyworks SI4684 tuner with ESP32 board and a round color LCD or AMOLED\
+This is a fork of the famous PE5PVB SI4684 Project, unfinished and right now only a brainstroming.
+Check a more developed project on the origin source
 More information: https://www.pe5pvb.nl/
 
 # Building instructions
-On Youtube I published a video how to build your own radio.
+On Youtube PE5PVB published a video how to build your own radio.
 
 In English:
 https://www.youtube.com/watch?v=C_xd0h_HTuU
