@@ -23,8 +23,10 @@ https://www.youtube.com/watch?v=wV3G2J327qg
 # Libraries
 These are the libraries used for this project:
 - https://github.com/Bodmer/TFT_eSPI
+- https://github.com/uzi18/TFT_eSPI
 - https://github.com/Bodmer/JPEGDecoder
 - https://github.com/bitbank2/PNGdec
+
 
 Use these settings in the TFT_eSPI library:
 ```
