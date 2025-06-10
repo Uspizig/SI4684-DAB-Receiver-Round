@@ -58,7 +58,64 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "clearance|100155000|89250000|064dbe70-4fe6-4eca-a1d8-db2f40140ae4|f53c5af8-123b-41d9-9da9-2a608bd48d55",
+          ""
+        ],
+        [
+          "clearance|100655000|89250000|ca427ae5-9dcb-465a-9e0a-5526e615284c|064dbe70-4fe6-4eca-a1d8-db2f40140ae4",
+          ""
+        ],
+        [
+          "clearance|101155000|89250000|9545e68c-cf9c-4234-841d-0b962c19866b|ca427ae5-9dcb-465a-9e0a-5526e615284c",
+          ""
+        ],
+        [
+          "clearance|101655000|89250000|20050aaa-b8a4-4780-b055-9b3891c7316e|9545e68c-cf9c-4234-841d-0b962c19866b",
+          ""
+        ],
+        [
+          "clearance|102155000|89250000|3a27be64-25d1-4d8a-8b0e-674e4279143a|20050aaa-b8a4-4780-b055-9b3891c7316e",
+          ""
+        ],
+        [
+          "clearance|102655000|89250000|24b2ea5f-5eef-4249-8503-3ee918452192|3a27be64-25d1-4d8a-8b0e-674e4279143a",
+          ""
+        ],
+        [
+          "clearance|103155000|89250000|c3af8637-3773-461a-91ee-4994c415e721|24b2ea5f-5eef-4249-8503-3ee918452192",
+          ""
+        ],
+        [
+          "clearance|96655000|89250000|7a0b5830-a5cf-4f8d-a6b6-c4e17ac675a9|92223f0e-7261-4a3c-b868-506904c2d70a",
+          ""
+        ],
+        [
+          "clearance|97155000|89250000|3dab3eb0-3b7a-4c34-bdf7-482247c1ab02|7a0b5830-a5cf-4f8d-a6b6-c4e17ac675a9",
+          ""
+        ],
+        [
+          "clearance|97655000|89250000|933e8e90-6030-45ec-85e2-2c3832e288d2|3dab3eb0-3b7a-4c34-bdf7-482247c1ab02",
+          ""
+        ],
+        [
+          "clearance|98155000|89250000|edc0e474-fd3d-40b5-8cac-9abfea6e3c96|933e8e90-6030-45ec-85e2-2c3832e288d2",
+          ""
+        ],
+        [
+          "clearance|98655000|89250000|6834f40c-b18b-4800-a5fb-bfcee200afef|edc0e474-fd3d-40b5-8cac-9abfea6e3c96",
+          ""
+        ],
+        [
+          "clearance|99155000|89250000|7bd82f76-4d40-4f8e-addf-e5e54fecef0d|6834f40c-b18b-4800-a5fb-bfcee200afef",
+          ""
+        ],
+        [
+          "clearance|99655000|89250000|f53c5af8-123b-41d9-9da9-2a608bd48d55|7bd82f76-4d40-4f8e-addf-e5e54fecef0d",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
