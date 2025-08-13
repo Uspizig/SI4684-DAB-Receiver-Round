@@ -1,4 +1,5 @@
 #include "si4684.h"
+#include <Arduino.h>
 
 unsigned char SPIbuffer[4096];
 uint8_t EPGbuffer[12000];
@@ -132,11 +133,15 @@ static void cts(void) {
 
 bool DAB::begin(uint8_t SSpin) {
   memset(SPIbuffer, 0, sizeof(SPIbuffer));
-  if (LittleFS.exists("/temp.img")) LittleFS.remove("/temp.img");
+//  if (LittleFS.exists("/temp.img")) LittleFS.remove("/temp.img");
   slaveSelectPin = SSpin;
   pinMode(slaveSelectPin, OUTPUT);                                        // Configure SPI
   digitalWrite(slaveSelectPin, HIGH);
-  SPI.begin(14, 16, 13, SSpin);
+  //SPI.begin(14, 16, 13, SSpin);
+  uint8_t SCK_DAB = 7; 
+  uint8_t MISO_DAB = 8;
+  uint8_t MOSI_DAB = 9;	
+  SPI.begin(SCK_DAB, MISO_DAB, MOSI_DAB, SSpin);
   delay(3);
   SPIbuffer[0] = 0x09;
   SPIbuffer[1] = 0x00;
@@ -152,7 +157,8 @@ bool DAB::begin(uint8_t SSpin) {
   }
 
   if (SPIbuffer[1] != 2) {
-    SPIbuffer[0] = 0x01;                                                    // POWER_UP
+    Serial.println("POWER_UP");
+	SPIbuffer[0] = 0x01;                                                    // POWER_UP
     SPIbuffer[1] = 0x00;
     SPIbuffer[2] = 0x17;
     SPIbuffer[3] = 0x48;
@@ -172,13 +178,15 @@ bool DAB::begin(uint8_t SSpin) {
     cts();
 
     delayMicroseconds(20);
-
+	Serial.println("LOAD_INIT1");
     SPIbuffer[0] = 0x06;                                                    // LOAD_INIT
     SPIbuffer[1] = 0x00;
     SPIwrite(SPIbuffer, 2);
     cts();
 
-    uint32_t index = 0;                                                     // Write bootloader
+    uint32_t index = 0;                                                    // Write bootloader
+	Serial.print("Write bootloader Size:");                                     // Write bootloader
+    Serial.println(sizeof(rom_patch_016));
     for (uint16_t i = 0; index < sizeof(rom_patch_016); i++) {
       SPIbuffer[0] = 0x04;
       SPIbuffer[1] = 0x00;
@@ -188,7 +196,7 @@ bool DAB::begin(uint8_t SSpin) {
       SPIwrite(SPIbuffer, 128);
       cts();
     }
-
+	Serial.println("LOAD_INIT2");
     delay(4);
     SPIbuffer[0] = 0x06;                                                    // LOAD_INIT
     SPIbuffer[1] = 0x00;
@@ -209,12 +217,13 @@ bool DAB::begin(uint8_t SSpin) {
       SPIwrite(SPIbuffer, i);
       cts();
     }
-
+	
+	Serial.println("Boot");
     SPIbuffer[0] = 0x07;                                                    // BOOT
     SPIbuffer[1] = 0x00;
     SPIwrite(SPIbuffer, 2);
     cts();
-
+	Serial.println("Write DAB frequencyplan");
     SPIbuffer[0] = 0xB8;                                                    // Write DAB frequencyplan
     SPIbuffer[1] = 0x26;
     SPIbuffer[2] = 0x00;
@@ -227,7 +236,7 @@ bool DAB::begin(uint8_t SSpin) {
     }
     SPIwrite(SPIbuffer, 4 + (38 * 4));
     cts();
-
+	Serial.println("Set properties");
     Set_Property(0x0200, 0x8000);                                            // Set properties
     Set_Property(0x0202, 0x1600);
     Set_Property(0x0800, 0x0003);

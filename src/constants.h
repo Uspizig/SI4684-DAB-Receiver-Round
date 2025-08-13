@@ -1,16 +1,16 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define ROTARY_PIN_A    27
-#define ROTARY_PIN_B    34
-#define ROTARY_PIN_2A   33
-#define ROTARY_PIN_2B   32
-#define ROTARY_BUTTON   25
-#define ROTARY_BUTTON2  35
-#define STANDBYBUTTON   36
-#define SLBUTTON        26
-#define MODEBUTTON      39
-#define CONTRASTPIN     2
+#define ROTARY_PIN_A    11//27
+#define ROTARY_PIN_B    12//34
+#define ROTARY_PIN_2A   13//33
+#define ROTARY_PIN_2B   11//32
+#define ROTARY_BUTTON   12//25
+#define ROTARY_BUTTON2  13//35
+#define STANDBYBUTTON   11//36
+#define SLBUTTON        12//26
+#define MODEBUTTON      21//39
+#define CONTRASTPIN     2//2
 
 #define ITEM_GAP        20
 #define ITEM1           3
