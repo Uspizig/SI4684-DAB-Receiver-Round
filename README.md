@@ -6,7 +6,7 @@ The version in the repository is an ongoing development. It could and will conta
 RIGHT NOW only KiCad files and even these not finished.
 
 # Hint:
-#define USE_HSPI_PORT ... set this to active in eTFT Lib. otherwise it won't work
+#define USE_HSPI_PORT ... set this to active in eTFT Lib user_setup.h. otherwise it won't work
 
 # SI4684 DAB receiver
 Advanced DAB Tuner software for Skyworks SI4684 tuner with ESP32 board and a round color LCD or AMOLED\
