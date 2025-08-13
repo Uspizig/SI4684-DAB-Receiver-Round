@@ -18,6 +18,11 @@
 TPA6130A2 Headphones;
 DAB radio;
 
+//uint8_t slaveSelectPin = 3;
+uint8_t RESET_PIN = 1;
+//uint8_t SDA = 5;
+//uint8_t SCL = 6;
+
 TFT_eSPI tft = TFT_eSPI(240, 320);
 
 bool autoslideshow;
@@ -133,8 +138,8 @@ TFT_eSprite ShortSprite = TFT_eSprite(&tft);
 DABMemory memory[EE_PRESETS_CNT];
 
 void setup(void) {
-  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
-  gpio_set_drive_capability((gpio_num_t) 4, GPIO_DRIVE_CAP_0);
+  //WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
+  /*gpio_set_drive_capability((gpio_num_t) 4, GPIO_DRIVE_CAP_0);
   gpio_set_drive_capability((gpio_num_t) 5, GPIO_DRIVE_CAP_0);
   gpio_set_drive_capability((gpio_num_t) 13, GPIO_DRIVE_CAP_0);
   gpio_set_drive_capability((gpio_num_t) 14, GPIO_DRIVE_CAP_0);
@@ -142,12 +147,45 @@ void setup(void) {
   gpio_set_drive_capability((gpio_num_t) 16, GPIO_DRIVE_CAP_0);
   gpio_set_drive_capability((gpio_num_t) 17, GPIO_DRIVE_CAP_0);
   gpio_set_drive_capability((gpio_num_t) 21, GPIO_DRIVE_CAP_0);
-  gpio_set_drive_capability((gpio_num_t) 22, GPIO_DRIVE_CAP_0);
+  gpio_set_drive_capability((gpio_num_t) 22, GPIO_DRIVE_CAP_0);*/
   setupmode = true;
-  LittleFS.begin();
-  LittleFS.format();
+  Serial.begin(115200);
+  delay(1000);
+  Serial.println("Hello World\n\n\n");
+  if (!LittleFS.begin(true, "/littlefs", 10, "littlefs")){
+    Serial.println("LittleFS mount failed. Formatting...");
+    if (LittleFS.format()) {
+        Serial.println("LittleFS successfully formatted.");
+    } else {
+        Serial.println("Error formatting LittleFS.");
+    }
+    if (!LittleFS.begin()) {
+        Serial.println("LittleFS could not be mounted after formatting.");
+    } else {
+        Serial.println("LittleFS successfully mounted after formatting.");
+    }
+  } else {
+    Serial.println("LittleFS successfully mounted.");
+  }
+  
+  //bool begin(bool formatOnFail=false, const char * basePath="/littlefs", uint8_t maxOpenFiles=10, const char * partitionLabel="spiffs");
+  
 
-  Serial.begin(1000000);
+  
+  
+
+  pinMode(RESET_PIN, OUTPUT);
+  digitalWrite(RESET_PIN, LOW);
+  delay(500);
+  digitalWrite(RESET_PIN, HIGH);
+
+  if (LittleFS.exists("/temp.img")){ 
+    LittleFS.remove("/temp.img");
+    Serial.println("Little FS erased");
+  }
+  else{
+    Serial.println("Little FS not erased");
+  }
 
   EEPROM.begin(EE_TOTAL_CNT);
   if (EEPROM.readByte(EE_BYTE_CHECKBYTE) != EE_CHECKBYTE_VALUE) DefaultSettings();
@@ -222,7 +260,7 @@ void setup(void) {
   ModeSprite.setSwapBytes(true);
 
   loadFonts(true);
-
+/*
   if (digitalRead(SLBUTTON) == LOW && digitalRead(ROTARY_BUTTON) == HIGH) {
     if (rotarymode == 0) rotarymode = 1; else rotarymode = 0;
     EEPROM.writeByte(EE_BYTE_ROTARYMODE, rotarymode);
@@ -259,7 +297,7 @@ void setup(void) {
     tftPrint(0, myLanguage[language][2], 155, 130, ActiveColor, ActiveColorSmooth, 28);
     while (digitalRead(ROTARY_BUTTON) == LOW && digitalRead(SLBUTTON) == LOW);
     ESP.restart();
-  }
+  }*/
 
   tft.pushImage (0, 0, 320, 240, SplashScreen);
   tftPrint(0, myLanguage[language][72], 155, 15, ActiveColor, ActiveColorSmooth, 28);
@@ -271,10 +309,16 @@ void setup(void) {
     delay(30);
   }
 
-  if (radio.begin(15)) {
+  
+  Serial.println("Before Radio Begin");
+  if (radio.begin(3)) {
     tftPrint(0, String(radio.getChipID()) + " v" + String(radio.getFirmwareVersion()), 160, 210, TFT_WHITE, TFT_DARKGREY, 16);
+    Serial.println("Chip responded");
   } else {
     tftPrint(0, myLanguage[language][77], 160, 210, TFT_WHITE, TFT_DARKGREY, 16);
+    Serial.println("NO Radio Chip detected");
+    delay(2000);
+    Serial.println("TEST");
     for (;;);
   }
 
@@ -406,7 +450,7 @@ void closeVolume(void) {
 }
 
 void doRecovery(void) {
-  radio.begin(15);
+  radio.begin(3);
   radio.setFreq(dabfreq);
   trysetservice = true;
 }
