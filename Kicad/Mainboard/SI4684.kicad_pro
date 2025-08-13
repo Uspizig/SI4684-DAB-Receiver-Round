@@ -116,14 +116,6 @@
           ""
         ],
         [
-          "lib_footprint_mismatch|111702958|122636286|a55d40e6-dbd9-4aee-bcd7-0837bf4a31d4|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
-          "lib_footprint_mismatch|116255391|89554305|65f429e2-d0fd-4c3f-a965-302d0630ddc2|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
           "lib_footprint_mismatch|116310000|110140000|8b6b4634-dabc-45ef-94b3-e2bb2048081c|00000000-0000-0000-0000-000000000000",
           ""
         ],
@@ -132,19 +124,7 @@
           ""
         ],
         [
-          "lib_footprint_mismatch|91468174|118126630|997484cb-0950-4ac1-b525-e07cfa087716|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
-          "lib_footprint_mismatch|93259500|116160000|ea91d8fd-0507-4294-8893-b9eb9c7adf2c|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
           "lib_footprint_mismatch|99730000|97100000|1987b66c-c280-4872-9855-6f8142cf4358|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
-          "padstack|115243432|87531543|efdae88c-12b5-43a5-965d-2f92762b4d63|00000000-0000-0000-0000-000000000000",
           ""
         ],
         [
@@ -153,10 +133,6 @@
         ],
         [
           "padstack|117864662|108497242|c28470d5-87f2-48c1-8eaf-d2e11eeba83c|00000000-0000-0000-0000-000000000000",
-          ""
-        ],
-        [
-          "padstack|118071697|90902140|3a662b78-768d-4a27-9d2b-e4398a0bcc07|00000000-0000-0000-0000-000000000000",
           ""
         ]
       ],
@@ -242,7 +218,7 @@
         "min_via_diameter": 0.5,
         "solder_mask_clearance": 0.0,
         "solder_mask_min_width": 0.0,
-        "solder_mask_to_copper_clearance": 0.0,
+        "solder_mask_to_copper_clearance": 0.005,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
@@ -693,12 +669,90 @@
           "label": "DNP",
           "name": "${DNP}",
           "show": true
+        },
+        {
+          "group_by": false,
+          "label": "#",
+          "name": "${ITEM_NUMBER}",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "LCSC Part Name",
+          "name": "LCSC Part Name",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "MPN",
+          "name": "MPN",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Manufacturer",
+          "name": "Manufacturer",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Manufacturer Part",
+          "name": "Manufacturer Part",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "OC_FARNELL",
+          "name": "OC_FARNELL",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "OC_NEWARK",
+          "name": "OC_NEWARK",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "PACKAGE",
+          "name": "PACKAGE",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "SUPPLIER",
+          "name": "SUPPLIER",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Sim.Pins",
+          "name": "Sim.Pins",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Supplier",
+          "name": "Supplier",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Supplier Part",
+          "name": "Supplier Part",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Beschreibung",
+          "name": "Description",
+          "show": false
         }
       ],
       "filter_string": "",
       "group_symbols": true,
       "include_excluded_from_bom": false,
-      "name": "Grouped By Value",
+      "name": "",
       "sort_asc": true,
       "sort_field": "Reference"
     },
