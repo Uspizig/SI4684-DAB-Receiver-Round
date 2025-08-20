@@ -15,18 +15,24 @@ Check a more developed project on the origin source: https://www.pe5pvb.nl/
 
 # How does it look
 
-<p align="center"> 
-<img src="./Images/Screenshot 2025-08-20 195246.jpg">
-</p>
 
 
-
+Simulation
 <p align="center"> 
 <img src="./Images/Screenshot 2025-08-20 195328.jpg" width="400" height="400"/>
 </p>
 
+Real device
+<p align="center"> 
+<img src="./Images/IMG_20250820_203654.jpg">
+</p>
+
 
 # How does work
+
+<p align="center"> 
+<img src="./Images/IMG_20250820_141818.jpg" width="400" height="400"/>
+</p>
 
 <p align="center"> 
 <img src="./Images/IMG_20250820_141818.jpg" width="400" height="400"/>
