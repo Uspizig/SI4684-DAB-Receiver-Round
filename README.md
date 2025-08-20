@@ -26,7 +26,7 @@ Check a more developed project on the origin source: https://www.pe5pvb.nl/
 </p>
 
  <p align="center"> 
-<img src="./Images/Screenshot 2025-08-20 195603.jpg" width="400" height="180"/>
+<img src="./Images/IMG_20250820_141818.jpg" width="400" height="400"/>
 </p>
 
 
