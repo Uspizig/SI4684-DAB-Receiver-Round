@@ -30,9 +30,7 @@ Real device
 
 # How does work
 
-<p align="center"> 
-<img src="./Images/IMG_20250820_141818.jpg" width="400" height="400"/>
-</p>
+
 
 <p align="center"> 
 <img src="./Images/IMG_20250820_141818.jpg" width="400" height="400"/>
