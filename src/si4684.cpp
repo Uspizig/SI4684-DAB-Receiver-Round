@@ -205,6 +205,9 @@ bool DAB::begin(uint8_t SSpin) {
 
     index = 0;
     uint16_t i = 0;
+	Serial.println("Before writing the Firmware ");
+	Serial.print("Write firmware Size:");                                     // Write bootloader
+    Serial.println(sizeof(firmware));
     while (index < sizeof(firmware)) {
       SPIbuffer[0] = 0x04;
       SPIbuffer[1] = 0x00;

@@ -1,7 +1,7 @@
 #include "TPA6130A2.h"
 
 byte TPA6130A2::Init(void) {
-  Wire.begin();
+  Wire.begin(5,6);
   byte x = GetValue(0x02);
   bitWrite(x, 6, 0);
   bitWrite(x, 7, 0);

@@ -1,16 +1,44 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define ROTARY_PIN_A    11//27
+/*#define ROTARY_PIN_A    11//27
 #define ROTARY_PIN_B    12//34
 #define ROTARY_PIN_2A   13//33
 #define ROTARY_PIN_2B   11//32
 #define ROTARY_BUTTON   12//25
-#define ROTARY_BUTTON2  13//35
+#define ROTARY_BUTTON2  13//35*/
 #define STANDBYBUTTON   11//36
-#define SLBUTTON        12//26
-#define MODEBUTTON      21//39
+//#define SLBUTTON        12//26
+//#define MODEBUTTON      21//39
 #define CONTRASTPIN     2//2
+
+
+
+// TCA9554 I2C address (default is 0x20, can be 0x20-0x27 depending on A0-A2 pins)
+#define TCA9554_ADDRESS 0x20
+
+// TCA9554 Register addresses
+#define TCA9554_INPUT_REG     0x00  // Input port register
+#define TCA9554_OUTPUT_REG    0x01  // Output port register  
+#define TCA9554_POLARITY_REG  0x02  // Polarity inversion register
+#define TCA9554_CONFIG_REG    0x03  // Configuration register
+
+// Pin assignments on TCA9554 (P0-P7)
+#define ENCODER_A_PIN    7  // P0 - Encoder A signal
+#define ENCODER_B_PIN    5  // P1 - Encoder B signal
+#define ENCODER_BTN_PIN  6  // P2 - Encoder button
+
+#define ENCODER2_A_PIN    4  // P0 - Encoder A signal
+#define ENCODER2_B_PIN    1  // P1 - Encoder B signal
+#define ENCODER2_BTN_PIN  0  // P2 - Encoder button
+
+#define ENCODER_BTN3_PIN  2  // P2 - Encoder button
+#define ENCODER_BTN4_PIN  3  // P2 - Encoder button
+
+#define INT_PIN          43  // Arduino interrupt pin connected to TCA9554 INT
+
+
+
 
 #define ITEM_GAP        20
 #define ITEM1           3
