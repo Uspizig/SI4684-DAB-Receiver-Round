@@ -120,6 +120,41 @@ unsigned long rttickerhold;
 unsigned long TuningTimer;
 unsigned long VolumeTimer;
 
+
+
+// Encoder variables
+volatile bool encoderChanged = false;
+
+//int encoderPosition = 0;
+int lastEncoderA = 0;
+int lastEncoderB = 0;
+bool lastButtonState = HIGH;
+bool buttonPressed = false;
+
+
+//int encoder2Position = 0;
+int lastEncoder2A = 0;
+int lastEncoder2B = 0;
+bool lastButton2State = HIGH;
+bool button2Pressed = false;
+
+
+bool button3Pressed = false;
+bool button4Pressed = false;
+bool lastButton3State = HIGH;
+bool lastButton4State = HIGH;
+
+// Timing variables for debouncing
+unsigned long lastDebounceTime = 0;
+unsigned long debounceDelay = 50;
+
+unsigned long lastDebounce2Time = 0;
+unsigned long lastDebounce3Time = 0;
+unsigned long lastDebounce4Time = 0;
+
+
+/////
+
 static const int8_t enc_states[]  = {0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0};
 
 typedef struct _Memory {
@@ -223,7 +258,7 @@ void setup(void) {
   doTheme();
   if (displayflip == 0) tft.setRotation(3); else tft.setRotation(1);
 
-  pinMode(STANDBYBUTTON, INPUT);
+  /*pinMode(STANDBYBUTTON, INPUT);
   pinMode(MODEBUTTON, INPUT);
   pinMode(SLBUTTON, INPUT);
   pinMode(ROTARY_BUTTON, INPUT);
@@ -235,7 +270,37 @@ void setup(void) {
   attachInterrupt(digitalPinToInterrupt(ROTARY_PIN_A), read_encoder, CHANGE);
   attachInterrupt(digitalPinToInterrupt(ROTARY_PIN_B), read_encoder, CHANGE);
   attachInterrupt(digitalPinToInterrupt(ROTARY_PIN_2A), read_encoder2, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(ROTARY_PIN_2B), read_encoder2, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(ROTARY_PIN_2B), read_encoder2, CHANGE);*/
+
+  // Initialize TCA9554 Button Controller
+  // Initialize interrupt pin
+  pinMode(INT_PIN, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(INT_PIN), encoderISR, FALLING);
+  if (initTCA9554()) {
+    Serial.println("TCA9554 initialized successfully");
+  } else {
+    Serial.println("Failed to initialize TCA9554");
+    while(1); // Halt if initialization fails
+  }
+  
+  // Read initial encoder state
+  uint8_t initialState = readTCA9554();
+  lastEncoderA = (initialState >> ENCODER_A_PIN) & 1;
+  lastEncoderB = (initialState >> ENCODER_B_PIN) & 1;
+  lastButtonState = (initialState >> ENCODER_BTN_PIN) & 1;
+
+  lastEncoder2A = (initialState >> ENCODER2_A_PIN) & 1;
+  lastEncoder2B = (initialState >> ENCODER2_B_PIN) & 1;
+  lastButton2State = (initialState >> ENCODER2_BTN_PIN) & 1;
+
+  lastButton3State = (initialState >> ENCODER_BTN3_PIN) & 1;
+  lastButton4State = (initialState >> ENCODER_BTN4_PIN) & 1;
+  
+  Serial.println("Rotary Encoder with TCA9554 Ready");
+  Serial.println("Turn encoder or press button...");
+
+
+
 
   tft.setSwapBytes(true);
   tft.fillScreen(BackgroundColor);
@@ -346,6 +411,11 @@ void loop(void) {
   Communication();
   displayreset = false;
 
+  if (encoderChanged) {
+    encoderChanged = false;
+    handleEncoderChange();
+  }
+
   if (seek) Seek(direction);
 
   if (tot != 0) {
@@ -353,14 +423,16 @@ void loop(void) {
     if (millis() >= tottimer + totprobe) deepSleep();
   }
 
+
+// Rotary Encoder Auswertung Rotary 1
   if (millis() >= TuningTimer + 500) {
     if (store) {
-      detachInterrupt(digitalPinToInterrupt(ROTARY_PIN_A));
-      detachInterrupt(digitalPinToInterrupt(ROTARY_PIN_B));
+      //detachInterrupt(digitalPinToInterrupt(ROTARY_PIN_A));
+      //detachInterrupt(digitalPinToInterrupt(ROTARY_PIN_B));
       StoreFrequency();
       store = false;
-      attachInterrupt(digitalPinToInterrupt(ROTARY_PIN_A), read_encoder, CHANGE);
-      attachInterrupt(digitalPinToInterrupt(ROTARY_PIN_B), read_encoder, CHANGE);
+      //attachInterrupt(digitalPinToInterrupt(ROTARY_PIN_A), read_encoder, CHANGE);
+      //attachInterrupt(digitalPinToInterrupt(ROTARY_PIN_B), read_encoder, CHANGE);
     } else if (tuning) {
       radio.setFreq(dabfreq);
       tuning = false;
@@ -372,21 +444,29 @@ void loop(void) {
     closeVolume();
   }
 
+//Rortary 2 Auswerung
   if (!menu) {
     if (rotary2 == -1) KeyUp2();
     if (rotary2 == 1) KeyDown2();
   }
-
+//Rotary 1 Auswertung
   if (rotary == -1) KeyUp();
   if (rotary == 1) KeyDown();
 
-  if (digitalRead(MODEBUTTON) == LOW) ModeButtonPress();
-  if (!menu && digitalRead(SLBUTTON) == LOW) SlideShowButtonPress();
-  if (!menu && digitalRead(STANDBYBUTTON) == LOW) StandbyButtonPress();
-
-  if (digitalRead(ROTARY_BUTTON) == LOW) ButtonPress();
-
-  if (!menu && digitalRead(ROTARY_BUTTON2) == LOW) Button2Press();
+//Buttons Auswertung
+  //if (digitalRead(MODEBUTTON) == LOW) ModeButtonPress();
+  if (button3Pressed && (millis() - lastDebounce3Time) > debounceDelay){ModeButtonPress();button3Pressed = false;}
+  
+  //if (!menu && digitalRead(SLBUTTON) == LOW) SlideShowButtonPress();
+  if (!menu && button4Pressed && (millis() - lastDebounce4Time) > debounceDelay) {SlideShowButtonPress();button4Pressed = false;}
+  
+  //if (!menu && digitalRead(STANDBYBUTTON) == LOW) StandbyButtonPress();
+//Rotary Button 1 Auswertung
+  //if (digitalRead(ROTARY_BUTTON) == LOW) ButtonPress();
+  if (buttonPressed && (millis() - lastDebounceTime) > debounceDelay){ButtonPress();buttonPressed = false;}
+//Rotary Button 2 Auswertung
+  //if (!menu && digitalRead(ROTARY_BUTTON2) == LOW) Button2Press();
+  if (!menu &&  button2Pressed && (millis() - lastDebounce2Time) > debounceDelay){Button2Press();button2Pressed = false;}
 }
 
 void ProcessDAB(void) {
@@ -543,7 +623,7 @@ void ButtonPress(void) {
   } else {
     DoMenu();
   }
-  while (digitalRead(ROTARY_BUTTON) == LOW);
+  //while (digitalRead(ROTARY_BUTTON) == LOW);
 }
 
 void Button2Press(void) {
@@ -556,7 +636,7 @@ void Button2Press(void) {
     setvolume = true;
     ShowVolume();
   }
-  while (digitalRead(ROTARY_BUTTON2) == LOW);
+  //while (digitalRead(ROTARY_BUTTON2) == LOW);
 }
 
 void SlideShowButtonPress(void) {
@@ -572,7 +652,7 @@ void SlideShowButtonPress(void) {
     if (SlideShowView) BuildDisplay();
     SlideShowView = false;
   }
-  while (digitalRead(SLBUTTON) == LOW);
+  //while (digitalRead(SLBUTTON) == LOW);
 }
 
 void ModeButtonPress(void) {
@@ -580,7 +660,7 @@ void ModeButtonPress(void) {
   seek = false;
   unsigned long counterold = millis();
   unsigned long counter = millis();
-  while (digitalRead(MODEBUTTON) == LOW && counter - counterold <= 1000) counter = millis();
+  //while (digitalRead(MODEBUTTON) == LOW && counter - counterold <= 1000) counter = millis(); //USPIZIG Hier Problem
 
   if (menu) {
     EEPROM.writeByte(EE_BYTE_LANGUAGE, language);
@@ -610,7 +690,7 @@ void ModeButtonPress(void) {
 
     }
   }
-  while (digitalRead(MODEBUTTON) == LOW);
+  //while (digitalRead(MODEBUTTON) == LOW);
 }
 
 void StandbyButtonPress(void) {
@@ -901,7 +981,7 @@ void Seek(bool mode) {
   if (radio.signallock) seek = false;
 }
 
-void read_encoder(void) {
+/*void read_encoder(void) {
   static uint8_t old_AB = 3;
   static int8_t encval = 0;
 
@@ -935,7 +1015,7 @@ void read_encoder2(void) {
     if (rotarymode) rotary2 = 1; else rotary2 = -1;
     encval = 0;
   }
-}
+}*/
 
 void DefaultSettings(void) {
   EEPROM.writeByte(EE_BYTE_CHECKBYTE, EE_CHECKBYTE_VALUE);
@@ -1053,4 +1133,158 @@ void loadFonts(bool option) {
     FullLineSprite.unloadFont();
     ModeSprite.unloadFont();
   }
+}
+
+
+/// Encoder 
+
+// Interrupt service routine
+void encoderISR() {
+  encoderChanged = true;
+}
+
+uint8_t readTCA9554() {
+  Wire.beginTransmission(TCA9554_ADDRESS);
+  Wire.write(TCA9554_INPUT_REG);
+  uint8_t result = Wire.endTransmission();
+  
+  if (result != 0) {
+    Serial.print("I2C Read Error: ");
+    Serial.println(result);
+    return 0;
+  }
+  
+  Wire.requestFrom(TCA9554_ADDRESS, 1);
+  if (Wire.available()) {
+    return Wire.read();
+  }
+  return 0;
+}
+
+bool initTCA9554() {
+  // Set pins as inputs (1 = input, 0 = output)
+  // We want encoder pins and button as inputs
+  uint8_t configValue = (1 << ENCODER_A_PIN) | (1 << ENCODER_B_PIN) | (1 << ENCODER_BTN_PIN) | (1 << ENCODER2_A_PIN) | (1 << ENCODER2_B_PIN) | (1 << ENCODER2_BTN_PIN) | (1 << ENCODER_BTN3_PIN) | (1 << ENCODER_BTN4_PIN);
+  
+  Wire.beginTransmission(TCA9554_ADDRESS);
+  Wire.write(TCA9554_CONFIG_REG);
+  Wire.write(configValue);
+  uint8_t result = Wire.endTransmission();
+  
+  if (result != 0) {
+    Serial.print("I2C Error: ");
+    Serial.println(result);
+    return false;
+  }
+  
+  // Optional: Set polarity inversion (0 = normal, 1 = inverted)
+  Wire.beginTransmission(TCA9554_ADDRESS);
+  Wire.write(TCA9554_POLARITY_REG);
+  Wire.write(0x00); // No polarity inversion
+  Wire.endTransmission();
+  
+  return true;
+}
+
+
+///Check what has changed on the Encoders and Buttons
+void handleEncoderChange() {
+  uint8_t currentState = readTCA9554();
+  
+  // Extract individual pin states
+  int currentEncoderA = (currentState >> ENCODER_A_PIN) & 1;
+  int currentEncoderB = (currentState >> ENCODER_B_PIN) & 1;
+  int currentButtonState = (currentState >> ENCODER_BTN_PIN) & 1;
+  
+  int currentEncoder2A = (currentState >> ENCODER2_A_PIN) & 1;
+  int currentEncoder2B = (currentState >> ENCODER2_B_PIN) & 1;
+  int currentButton2State = (currentState >> ENCODER2_BTN_PIN) & 1;
+
+  int currentButton3State = (currentState >> ENCODER_BTN3_PIN) & 1;
+  int currentButton4State = (currentState >> ENCODER_BTN4_PIN) & 1;
+
+  // Handle encoder rotation
+  if (currentEncoderA != lastEncoderA) {
+    // Encoder A changed
+    if (currentEncoderA == 0) { // Falling edge of A
+      if (currentEncoderB == 1) {
+        rotary=1; // Clockwise
+        /*Serial.print("Encoder: ");
+        Serial.print(rotary);
+        Serial.println(" (CW)");*/
+      } else {
+        rotary=-1; // Counter-clockwise
+        /*Serial.print("Encoder: ");
+        Serial.print(rotary);
+        Serial.println(" (CCW)");*/
+      }
+    }
+  }
+
+
+  // Handle encoder rotation
+  if (currentEncoder2A != lastEncoder2A) {
+    // Encoder A changed
+    if (currentEncoder2A == 0) { // Falling edge of A
+      if (currentEncoder2B == 1) {
+        rotary2=1; // Clockwise
+        /*Serial.print("Encoder2: ");
+        Serial.print(rotary2);
+        Serial.println(" (CW)");*/
+      } else {
+        rotary2=-1; // Counter-clockwise
+        /*Serial.print("Encoder2: ");
+        Serial.print(rotary2);
+        Serial.println(" (CCW)");*/
+      }
+    }
+  }
+  
+  // Handle button press (falling edge detection with debouncing)
+  if (currentButtonState != lastButtonState) {
+    if (currentButtonState == LOW && lastButtonState == HIGH) {
+      // Button pressed (assuming active low)
+      buttonPressed = true;
+      lastDebounceTime = millis();
+    }
+  }
+
+  // Handle button press (falling edge detection with debouncing)
+  if (currentButton2State != lastButton2State) {
+    if (currentButton2State == LOW && lastButton2State == HIGH) {
+      // Button pressed (assuming active low)
+      button2Pressed = true;
+      lastDebounce2Time = millis();
+    }
+  }
+  
+  // Handle button press (falling edge detection with debouncing)
+  if (currentButton3State != lastButton3State) {
+    if (currentButton3State == LOW && lastButton3State == HIGH) {
+      // Button pressed (assuming active low)
+      button3Pressed = true;
+      lastDebounce2Time = millis();
+    }
+  }
+
+  // Handle button press (falling edge detection with debouncing)
+  if (currentButton4State != lastButton4State) {
+    if (currentButton4State == LOW && lastButton4State == HIGH) {
+      // Button pressed (assuming active low)
+      button4Pressed = true;
+      lastDebounce2Time = millis();
+    }
+  }
+
+  // Update last states
+  lastEncoderA = currentEncoderA;
+  lastEncoderB = currentEncoderB;
+  lastButtonState = currentButtonState;
+
+  lastEncoder2A = currentEncoder2A;
+  lastEncoder2B = currentEncoder2B;
+  lastButton2State = currentButton2State;
+
+  lastButton3State = currentButton3State;
+  lastButton3State = currentButton3State;
 }
