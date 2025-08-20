@@ -13,7 +13,7 @@ Advanced DAB Tuner software for Skyworks SI4684 tuner with ESP32 board and a rou
 This is a fork of the famous PE5PVB SI4684 Project, unfinished and right now still in devolpment.
 Check a more developed project on the origin source: https://www.pe5pvb.nl/
 
-# Building instructions
+# How does it look
 
 <p align="center"> 
 <img src="./Images/Screenshot 2025-08-20 195246.jpg">
@@ -25,10 +25,22 @@ Check a more developed project on the origin source: https://www.pe5pvb.nl/
 <img src="./Images/Screenshot 2025-08-20 195328.jpg" width="400" height="400"/>
 </p>
 
- <p align="center"> 
+
+# How does work
+
+<p align="center"> 
 <img src="./Images/IMG_20250820_141818.jpg" width="400" height="400"/>
 </p>
 
+Base Screen:
+<p align="center"> 
+<img src="./Images/IMG_20250820_141814.jpg" width="400" height="400"/>
+</p>
+
+DAB Slideshow
+<p align="center"> 
+<img src="./Images/IMG_20250820_194517.jpg" width="400" height="400"/>
+</p>
 
 # Libraries
 These are the libraries used for this project:
