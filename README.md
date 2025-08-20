@@ -19,7 +19,7 @@ Check a more developed project on the origin source: https://www.pe5pvb.nl/
 
 Simulation
 <p align="center"> 
-<img src="./Images/Screenshot 2025-08-20 195328.jpg" width="400" height="400"/>
+<img src="./Images/Screenshot 2025-08-20 195603.jpg" width="400" height="400"/>
 </p>
 
 Real device
