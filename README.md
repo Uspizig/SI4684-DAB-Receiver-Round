@@ -28,9 +28,9 @@ Real device
 </p>
 
 
-# How does work
+# How does it look working
 
-
+These are pictures of the very first HW bringup
 
 <p align="center"> 
 <img src="./Images/IMG_20250820_141818.jpg" width="400" height="400"/>
@@ -78,7 +78,7 @@ Use these settings in the TFT_eSPI library:
 A brief instruction for the buttons:
 - Top encoder: Choose frequency or memory channel
 - Bottom encoder: Choose service or set headphones volume
-- Top button: Short press: Service information, Long press: Stand-by mode. (Not in use right now)
+- (Not in use right now) Top button: Short press: Service information, Long press: Stand-by mode. 
 - Middle button: Short press: Set mode, Long press: Open menu.
 - Lower button: Toggle Slideshow view.
   
@@ -97,4 +97,4 @@ This program is free software; you can redistribute it and/or modify it under th
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
 
 ## If you like this software. Contriubute to 
-<a href="https://www.buymeacoffee.com/pe5pvb"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=pe5pvb&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+<a href="https://buymeacoffee.com/blue2monstm"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=blue2monstm&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
